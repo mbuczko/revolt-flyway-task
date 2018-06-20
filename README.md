@@ -1,3 +1,5 @@
+[![Clojars Project](https://img.shields.io/clojars/v/defunkt/revolt-flyway-task.svg)](https://clojars.org/defunkt/revolt-flyway-task)
+
 # Database migrations with Flyway and Revolt
 
 Assuming `resources/db/migrations/postgres` to be a path where flyway migration files are located.
