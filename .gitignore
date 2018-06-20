@@ -1,0 +1,8 @@
+.DS_Store
+.nrepl-history
+.nrepl-port
+.idea
+*.log
+tmp/
+
+
