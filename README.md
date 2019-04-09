@@ -8,8 +8,8 @@ Assuming `resources/db/migrations/postgres` to be a path where flyway migration 
 
 ``` clojure
 {:paths ["resources"]
- :aliases {:dev {:extra-deps  {defunkt/revolt {:mvn/version "0.1.5"}
-                               defunkt/revolt-flyway-task {:mvn/version "0.0.1"}
+ :aliases {:dev {:extra-deps  {defunkt/revolt {:mvn/version "1.3.0"}
+                               defunkt/revolt-flyway-task {:mvn/version "0.1.0"}
                                org.postgresql/postgresql {:mvn/version "42.1.4"}}
                  :main-opts   ["-m" "revolt.bootstrap"]}}}
 ```
@@ -31,9 +31,7 @@ Assuming `resources/db/migrations/postgres` to be a path where flyway migration 
 (require '[revolt.task :as t])
 (require '[revolt.migrations.task :as migrations])
 (t/require-task ::migrations/flyway)
-```
 
-``` clojure
 ;; to see migrations status
 (flyway)
 
