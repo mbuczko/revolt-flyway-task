@@ -1,0 +1,8 @@
+{:revolt.task/info  {:name "revolt-flyway-task"
+                     :package defunkt
+                     :version "0.1.0"
+                     :description "Flyway based migrations task for Revolt"}
+ :revolt.task/clean {:extra-paths ["dist"]}
+ :revolt.task/jar   {:exclude-paths #{"config"}}
+
+ :revolt.plugin/nrepl {:port 5600}}

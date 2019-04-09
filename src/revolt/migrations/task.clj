@@ -1,5 +1,5 @@
 (ns revolt.migrations.task
-  (:require [revolt.task :refer [Task create-task]])
+  (:require [revolt.task :refer [Task create-task make-description]])
   (:import  [org.flywaydb.core Flyway]
             [org.flywaydb.core.internal.info MigrationInfoDumper]))
 
@@ -52,21 +52,11 @@
            flyway)
           ctx))
       (describe [this]
-        "Database migration actions.
-
-Migrates database using Flyway migrations engine.
-Recognized options:
-
-  :jdbc-url - jdbc URL, like \"jdbc:postgresql://<host>:<port>/<database>?<key1>=<value1>&<key2>=<value2>...\"
-  :user - user to use in database connection
-  :password - password to use in database connection
-  :action - one of following:
-            :migrate - to apply pending database migrations
-            :validate - to validate migration applied to database
-            :clean - to wipe configured schemas completely
-            :baseline - to introduce Flyway to existing databases by baselining them at a specific version
-            :info - to see status of migrations
-  :target-version - target version up to which Flyway should consider migrations when executing :migrate action
-  :baseline-version -  the version to tag an existing schema with when executing :baseline action
-  :locations - comma-separated list of locations to scan recursively for migrations (defaults to [\"db/migrations\"])
-"))))
+        (make-description "Database migration actions" "Migrates database using Flyway migrations engine."
+                          :jdbc-url "jdbc URL, like \"jdbc:postgresql://<host>:<port>/<database>?<key1>=<value1>&<key2>=<value2>...\""
+                          :user "user to use in database connection"
+                          :password "password to use in database connection"
+                          :action "one of following:\n                         :migrate  - to apply pending database migrations\n                         :validate - to validate migration applied to database\n                         :clean    - to wipe configured schemas completely\n                         :baseline - to introduce Flyway to existing databases by baselining them at a specific version\n                         :info     - to see status of migrations"
+                          :target-version "target version up to which Flyway should consider migrations when executing :migrate action"
+                          :baseline-version "the version to tag an existing schema with when executing :baseline action"
+                          :locations "comma-separated list of locations to scan recursively for migrations (defaults to [\"db/migrations\"])")))))
