@@ -3,20 +3,20 @@
   (:import  [org.flywaydb.core Flyway]
             [org.flywaydb.core.internal.info MigrationInfoDumper]))
 
-(defn init-flyway [{:keys [jdbc-url user password baseline-version target-version locations]} init-sqls]
+(defn configure [{:keys [jdbc-url user password baseline-version target-version locations]}]
   (if-not jdbc-url
     (println "No :jdbc-url provided in configuration")
-    (-> (Flyway.)
-        (doto (.setDataSource jdbc-url user password init-sqls))
+    (-> (Flyway/configure)
+        (doto (.dataSource jdbc-url user password))
 
         (cond-> baseline-version
-          (doto (.setBaselineVersionAsString baseline-version)))
+          (doto (.baselineVersion baseline-version)))
 
         (cond-> target-version
-          (doto (.setTargetAsString target-version)))
+          (doto (.target target-version)))
 
         (cond-> (seq locations)
-          (doto (.setLocations (into-array String locations)))))))
+          (doto (.locations (into-array String locations)))))))
 
 (defn clean [flyway]
   (. flyway clean))
@@ -37,19 +37,18 @@
   (println (MigrationInfoDumper/dumpToAsciiTable (.. flyway info all))))
 
 (defmethod create-task ::flyway [_ opts classpaths target]
-  (let [defaults  {:locations ["db/migrations"]}
-        init-sqls (make-array String 0)]
+  (let [defaults {:locations ["db/migrations"]}]
     (reify Task
       (invoke [this input ctx]
         (let [options (merge defaults opts input)
-              flyway  (init-flyway options init-sqls)]
-          ((condp = (keyword (:action options))
-             :clean    clean
-             :migrate  migrate
-             :validate validate
-             :baseline baseline
-             info)
-           flyway)
+              config  (configure options)
+              call-fn (condp = (keyword (:action options))
+                        :clean    clean
+                        :migrate  migrate
+                        :validate validate
+                        :baseline baseline
+                        info)]
+          (call-fn (.load config))
           ctx))
       (describe [this]
         (make-description "Database migration actions" "Migrates database using Flyway migrations engine."

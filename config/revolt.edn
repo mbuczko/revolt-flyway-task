@@ -1,6 +1,6 @@
 {:revolt.task/info  {:name "revolt-flyway-task"
                      :package defunkt
-                     :version "0.2.0"
+                     :version "0.3.0"
                      :description "Flyway based migrations task for Revolt"}
  :revolt.task/clean {:extra-paths ["dist"]}
  :revolt.task/jar   {:exclude-paths #{"config"}}
