@@ -4,7 +4,7 @@
   <name>revolt-flyway-task</name>
   <groupId>defunkt</groupId>
   <artifactId>revolt-flyway-task</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <description>Flyway based migrations task for Revolt</description>
   <licenses>
     <license>
